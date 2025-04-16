@@ -1,12 +1,12 @@
 {
     "version": 2,
-    "buildCommand": "./vercel-build.sh",
+    "buildCommand": "npm run vercel-build",
     "outputDirectory": "dist",
     "framework": "vite",
     "routes": [
       {
         "src": "/api/(.*)",
-        "dest": "/api/index.js"
+        "dest": "/api/handler.js"
       },
       {
         "src": "/(.*)",
@@ -14,8 +14,8 @@
       }
     ],
     "functions": {
-      "api/index.js": {
-        "runtime": "nodejs@18.17.0",
+      "api/handler.js": {
+        "runtime": "nodejs18.x",
         "memory": 1024,
         "maxDuration": 10
       }
