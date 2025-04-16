@@ -15,7 +15,7 @@
     ],
     "functions": {
       "api/index.js": {
-        "runtime": "edge",
+        "runtime": "nodejs@18.17.0",
         "memory": 1024,
         "maxDuration": 10
       }
