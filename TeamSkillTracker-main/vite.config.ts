@@ -9,7 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   root: path.resolve(__dirname, "client"),
-  base: "/",
+  base: "./",
   plugins: [
     react(),
     runtimeErrorOverlay(),
@@ -32,6 +32,7 @@ export default defineConfig({
   build: {
     outDir: path.resolve(__dirname, "dist"),
     emptyOutDir: true,
+    assetsDir: "assets",
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "client/index.html"),
@@ -40,6 +41,9 @@ export default defineConfig({
         manualChunks: {
           vendor: ['react', 'react-dom']
         },
+        assetFileNames: "assets/[name].[hash][extname]",
+        chunkFileNames: "assets/[name].[hash].js",
+        entryFileNames: "assets/[name].[hash].js"
       },
     },
     chunkSizeWarningLimit: 1000,
