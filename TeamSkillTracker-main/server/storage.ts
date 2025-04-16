@@ -256,7 +256,6 @@ export class MemStorage implements IStorage {
   }
   
   async createSkillAssessment(assessment: InsertSkillAssessment): Promise<SkillAssessment> {
-    // Check if an assessment already exists for this member, skill, and snapshot
     const existing = Array.from(this.skillAssessments.values()).find(
       a => a.teamMemberId === assessment.teamMemberId && 
            a.skillId === assessment.skillId && 
@@ -265,12 +264,16 @@ export class MemStorage implements IStorage {
     
     if (existing) {
       // Update instead of creating new
-      existing.level = assessment.level;
+      existing.level = assessment.level ?? 0; // Provide default value if undefined
       return existing;
     }
     
     const id = this.assessmentId++;
-    const newAssessment: SkillAssessment = { ...assessment, id };
+    const newAssessment: SkillAssessment = { 
+      ...assessment, 
+      id,
+      level: assessment.level ?? 0 // Provide default value if undefined
+    };
     this.skillAssessments.set(id, newAssessment);
     return newAssessment;
   }
@@ -1071,7 +1074,6 @@ export class DatabaseStorage implements IStorage {
   }
   
   async createSkillAssessment(assessment: InsertSkillAssessment): Promise<SkillAssessment> {
-    // Check if an assessment already exists for this member, skill, and snapshot
     const [existing] = await db
       .select()
       .from(skillAssessments)
@@ -1082,22 +1084,25 @@ export class DatabaseStorage implements IStorage {
           eq(skillAssessments.snapshotId, assessment.snapshotId)
         )
       );
-    
+
     if (existing) {
       // Update instead of creating new
       const [updated] = await db
         .update(skillAssessments)
-        .set({ level: assessment.level })
+        .set({ level: assessment.level ?? 0 })
         .where(eq(skillAssessments.id, existing.id))
         .returning();
       return updated;
     }
-    
+
     const [newAssessment] = await db
       .insert(skillAssessments)
-      .values(assessment)
+      .values({
+        ...assessment,
+        level: assessment.level ?? 0
+      })
       .returning();
-    
+
     return newAssessment;
   }
   
