@@ -1,6 +1,7 @@
 import { createServer } from 'http';
 import express from 'express';
 import { registerRoutes } from '../server/routes';
+import { closePool } from '../server/db';
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,12 @@ const initializeApp = async () => {
       console.log(`Server running on port ${port}`);
     });
   }
+
+  // Add error handling middleware
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.error('Error:', err);
+    res.status(500).json({ error: 'Internal Server Error', details: err.message });
+  });
   
   return app;
 };
@@ -25,4 +32,11 @@ const initializeApp = async () => {
 const handler = initializeApp();
 
 // Export the Express app for Vercel serverless deployment
-export default handler; 
+export default handler;
+
+// Cleanup function for serverless environment
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}; 
