@@ -1,13 +1,8 @@
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-import ws from "ws";
+import pkg from 'pg';
+const { Pool } = pkg;
+import { drizzle } from 'drizzle-orm/node-postgres';
 import * as schema from "../shared/schema";
 import { DATABASE_URL } from './config';
-
-// Only use WebSocket in non-edge environment
-if (!process.env.VERCEL_REGION?.includes('edge')) {
-  neonConfig.webSocketConstructor = ws;
-}
 
 if (!DATABASE_URL) {
   throw new Error(
@@ -15,17 +10,23 @@ if (!DATABASE_URL) {
   );
 }
 
-// Create a pool with keep-alive disabled for serverless
+// Create a pool with optimized settings
 export const pool = new Pool({ 
   connectionString: DATABASE_URL,
   connectionTimeoutMillis: 5000,
   max: 1,
-  keepAlive: false
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
-export const db = drizzle({ client: pool, schema });
+export const db = drizzle(pool, { schema });
 
 // Helper function to ensure connections are properly closed
 export const closePool = async () => {
-  await pool.end();
+  try {
+    await pool.end();
+  } catch (error) {
+    console.error('Error closing pool:', error);
+  }
 };
