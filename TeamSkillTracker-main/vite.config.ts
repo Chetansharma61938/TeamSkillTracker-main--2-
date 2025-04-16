@@ -24,17 +24,17 @@ export default defineConfig({
       : []),
   ],
   resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "client/src"),
-      "@shared": path.resolve(__dirname, "shared"),
-      "@/components": path.resolve(__dirname, "client/src/components"),
-      "@/lib": path.resolve(__dirname, "client/src/lib"),
-      "@/hooks": path.resolve(__dirname, "client/src/hooks"),
-      "@/contexts": path.resolve(__dirname, "client/src/contexts"),
-      "@/utils": path.resolve(__dirname, "client/src/utils"),
-      "@/types": path.resolve(__dirname, "client/src/types"),
-      "@/assets": path.resolve(__dirname, "client/src/assets")
-    },
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, 'client/src') },
+      { find: '@shared', replacement: path.resolve(__dirname, 'shared') },
+      { find: '@/components', replacement: path.resolve(__dirname, 'client/src/components') },
+      { find: '@/lib', replacement: path.resolve(__dirname, 'client/src/lib') },
+      { find: '@/hooks', replacement: path.resolve(__dirname, 'client/src/hooks') },
+      { find: '@/contexts', replacement: path.resolve(__dirname, 'client/src/contexts') },
+      { find: '@/utils', replacement: path.resolve(__dirname, 'client/src/utils') },
+      { find: '@/types', replacement: path.resolve(__dirname, 'client/src/types') },
+      { find: '@/assets', replacement: path.resolve(__dirname, 'client/src/assets') }
+    ],
   },
   build: {
     outDir: path.resolve(__dirname, "dist"),
