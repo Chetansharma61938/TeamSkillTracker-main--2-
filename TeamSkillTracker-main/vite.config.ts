@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  root: "client",
+  root: path.resolve(__dirname, "client"),
   base: "/",
   plugins: [
     react(),
@@ -24,17 +24,10 @@ export default defineConfig({
       : []),
   ],
   resolve: {
-    alias: [
-      { find: '@', replacement: path.resolve(__dirname, 'client/src') },
-      { find: '@shared', replacement: path.resolve(__dirname, 'shared') },
-      { find: '@/components', replacement: path.resolve(__dirname, 'client/src/components') },
-      { find: '@/lib', replacement: path.resolve(__dirname, 'client/src/lib') },
-      { find: '@/hooks', replacement: path.resolve(__dirname, 'client/src/hooks') },
-      { find: '@/contexts', replacement: path.resolve(__dirname, 'client/src/contexts') },
-      { find: '@/utils', replacement: path.resolve(__dirname, 'client/src/utils') },
-      { find: '@/types', replacement: path.resolve(__dirname, 'client/src/types') },
-      { find: '@/assets', replacement: path.resolve(__dirname, 'client/src/assets') }
-    ],
+    alias: {
+      "@": path.resolve(__dirname, "./client/src"),
+      "@shared": path.resolve(__dirname, "./shared"),
+    },
   },
   build: {
     outDir: path.resolve(__dirname, "dist"),
