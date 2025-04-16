@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
+  root: path.resolve(__dirname, "client"),
   plugins: [
     react(),
     runtimeErrorOverlay(),
@@ -28,8 +29,12 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: "dist",
+    outDir: path.resolve(__dirname, "dist"),
+    emptyOutDir: true,
     rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, "client/index.html"),
+      },
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
