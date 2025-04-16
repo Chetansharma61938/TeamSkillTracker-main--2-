@@ -6,7 +6,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/handler.js"
+      "dest": "/api/handler.ts"
     },
     {
       "handle": "filesystem"
@@ -17,7 +17,7 @@
     }
   ],
   "functions": {
-    "api/handler.js": {
+    "api/handler.ts": {
       "memory": 1024,
       "maxDuration": 10
     }
