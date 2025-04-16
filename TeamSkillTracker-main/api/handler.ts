@@ -1,7 +1,7 @@
 import { createServer } from 'http';
 import express from 'express';
-import { registerRoutes } from '../server/routes';
-import { closePool } from '../server/db';
+import { registerRoutes } from '../server/routes.js';
+import { closePool } from '../server/db.js';
 
 const app = express();
 app.use(express.json());
@@ -9,23 +9,28 @@ app.use(express.urlencoded({ extended: false }));
 
 // Initialize routes
 const initializeApp = async () => {
-  const server = await registerRoutes(app);
-  
-  if (!process.env.VERCEL) {
-    // Start the server normally for local development
-    const port = process.env.PORT || 5000;
-    server.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-    });
-  }
+  try {
+    const server = await registerRoutes(app);
+    
+    if (!process.env.VERCEL) {
+      // Start the server normally for local development
+      const port = process.env.PORT || 5000;
+      server.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+      });
+    }
 
-  // Add error handling middleware
-  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.error('Error:', err);
-    res.status(500).json({ error: 'Internal Server Error', details: err.message });
-  });
-  
-  return app;
+    // Add error handling middleware
+    app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Internal Server Error', details: err.message });
+    });
+    
+    return app;
+  } catch (error) {
+    console.error('Error initializing app:', error);
+    throw error;
+  }
 };
 
 // Initialize the app

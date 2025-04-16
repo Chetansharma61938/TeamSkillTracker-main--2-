@@ -1,17 +1,20 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./storage";
+import { storage } from "./storage.js";
 import { z } from "zod";
 import { 
   insertTeamMemberSchema, 
   insertSkillSchema, 
   insertWeeklySnapshotSchema,
   insertSkillAssessmentSchema
-} from "@shared/schema";
+} from "../shared/schema.js";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize demo data
   await storage.initDemoData();
+
+  // Create server instance
+  const server = createServer(app);
 
   // Team Members API
   app.get("/api/team-members", async (req, res) => {
@@ -270,6 +273,5 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  const httpServer = createServer(app);
-  return httpServer;
+  return server;
 }

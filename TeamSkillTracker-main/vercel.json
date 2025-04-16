@@ -9,11 +9,10 @@
       "use": "@vercel/static-build"
     },
     {
-      "src": "api/handler.ts",
+      "src": "api/**/*.ts",
       "use": "@vercel/node",
       "config": {
-        "memory": 1024,
-        "maxDuration": 10
+        "includeFiles": ["server/**/*", "shared/**/*"]
       }
     }
   ],
