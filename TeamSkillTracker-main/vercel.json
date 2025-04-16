@@ -5,7 +5,7 @@
   "framework": "vite",
   "builds": [
     {
-      "src": "client/package.json",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist"
@@ -26,11 +26,12 @@
       "dest": "/api/handler.ts"
     },
     {
-      "handle": "filesystem"
+      "src": "/(.*)",
+      "dest": "/dist/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "src": "/",
+      "dest": "/dist/index.html"
     }
   ],
   "env": {
