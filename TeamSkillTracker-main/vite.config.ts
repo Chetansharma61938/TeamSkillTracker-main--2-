@@ -27,6 +27,13 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "client/src"),
       "@shared": path.resolve(__dirname, "shared"),
+      "@/components": path.resolve(__dirname, "client/src/components"),
+      "@/lib": path.resolve(__dirname, "client/src/lib"),
+      "@/hooks": path.resolve(__dirname, "client/src/hooks"),
+      "@/contexts": path.resolve(__dirname, "client/src/contexts"),
+      "@/utils": path.resolve(__dirname, "client/src/utils"),
+      "@/types": path.resolve(__dirname, "client/src/types"),
+      "@/assets": path.resolve(__dirname, "client/src/assets")
     },
   },
   build: {
