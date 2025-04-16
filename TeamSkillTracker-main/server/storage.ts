@@ -9,7 +9,7 @@ import {
   settings, type Settings, type InsertSettings,
   type SkillMatrixData, type WeeklyComparisonData, type GrowthPerSkillData,
   SkillLevel
-} from "@shared/schema";
+} from "../shared/schema";
 
 export interface IStorage {
   // User methods
