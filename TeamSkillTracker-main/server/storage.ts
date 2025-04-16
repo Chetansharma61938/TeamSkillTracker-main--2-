@@ -1,3 +1,5 @@
+import * as schema from "../shared/schema";
+
 import { 
   users, type User, type InsertUser,
   teamMembers, type TeamMember, type InsertTeamMember,
